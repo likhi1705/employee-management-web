@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Employee Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 35px;
+            background: #f4f6f9;
+            color: #222;
+        }
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+        h1 { color: #243b64; }
+        a, button {
+            display: inline-block;
+            padding: 9px 13px;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .primary { background: #2459a9; color: white; }
+        .edit { background: #e7a323; color: black; }
+        .delete { background: #c73535; color: white; }
+        .search { margin: 20px 0; }
+        input { padding: 9px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th { background: #243b64; color: white; }
+        .message { color: #147d3f; }
+        .error { color: #c73535; }
+        .salary { font-weight: bold; margin-top: 18px; }
+        form.inline { display: inline; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Employee Management System</h1>
+    <p>Manage your employee records in one place.</p>
+
+    <p class="message" th:if="${message}" th:text="${message}"></p>
+    <p class="error" th:if="${error}" th:text="${error}"></p>
+
+    <a class="primary" th:href="@{/employees/new}">
+        + Add Employee
+    </a>
+
+    <form class="search" th:action="@{/employees/search}" method="get">
+        <input type="number" name="id" min="1"
+               placeholder="Enter employee ID" required>
+        <button class="primary" type="submit">Search</button>
+        <a th:href="@{/employees}">Show All</a>
+    </form>
+
+    <p class="salary">
+        Average Salary:
+        <span th:text="${averageSalary}"></span>
+    </p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Designation</th>
+            <th>Salary</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="employee : ${employees}">
+            <td th:text="${employee.id}"></td>
+            <td th:text="${employee.name}"></td>
+            <td th:text="${employee.department}"></td>
+            <td th:text="${employee.designation}"></td>
+            <td th:text="${employee.salary}"></td>
+            <td>
+                <a class="edit"
+                   th:href="@{/employees/edit/{id}(id=${employee.id})}">
+                    Edit
+                </a>
+                <form class="inline"
+                      th:action="@{/employees/delete/{id}(id=${employee.id})}"
+                      method="post"
+                      onsubmit="return confirm('Delete this employee?')">
+                    <button class="delete" type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(employees)}">
+            <td colspan="6">No employees found.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

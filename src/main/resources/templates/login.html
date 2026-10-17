@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Employee System Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .login-card {
+            width: 340px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #243b64;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            font-weight: bold;
+        }
+
+        input {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 11px;
+            margin-top: 7px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 24px;
+            border: none;
+            border-radius: 5px;
+            background: #2459a9;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #193f7a;
+        }
+
+        .message {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .error {
+            color: #c62828;
+        }
+
+        .success {
+            color: #187744;
+        }
+    </style>
+</head>
+<body>
+<div class="login-card">
+    <h2>Employee Management</h2>
+    <p style="text-align:center">Sign in to continue</p>
+
+    <p class="message error" th:if="${param.error}">
+        Invalid username or password.
+    </p>
+
+    <p class="message success" th:if="${param.logout}">
+        You have logged out successfully.
+    </p>
+
+    <form th:action="@{/login}" method="post">
+        <label for="username">Username</label>
+        <input type="text"
+               id="username"
+               name="username"
+               autocomplete="username"
+               required
+               autofocus>
+
+        <label for="password">Password</label>
+        <input type="password"
+               id="password"
+               name="password"
+               autocomplete="current-password"
+               required>
+
+        <button type="submit">Login</button>
+    </form>
+</div>
+</body>
+</html>
+
